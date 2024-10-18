@@ -4,18 +4,18 @@
         <div class="card_container"> 
             <div class ="user_container">
                 <div class ="image_container">
-                    <img class="pfp" :src="props.user.profilePictureURL"/>
+                    <img class="pfp" :src="props.user.avatar"/>
                 </div>
                 <div class ="info_container">
                     <span style="color: grey;">
                         #{{ props.user.id }} 
                         <!-- #1 -->
                     </span>
-                    <span><b>
-                        {{props.user.firstName}}
-                        {{props.user.lastName}}
+                    <span><h3><b>
+                        {{props.user.first_name}}
+                        {{props.user.last_name}}
                         <!-- Neymar Pai -->
-                    </b></span>
+                    </b></h3></span>
                     <span style="color: grey;">
                         {{props.user.email}}
                         <!-- akira.takiroto@gmail.com -->
@@ -93,6 +93,10 @@ const props = defineProps({ user: Object})
     display:flex;
     flex-direction: column;
     align-items: start;
+}
+
+.info_container span {
+    padding: 5px;
 }
 
 .options_container {

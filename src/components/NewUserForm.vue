@@ -4,8 +4,8 @@
             <label>
                 <h1>Usuários</h1>
             </label>
-            <div class="new_user_button_container" >
-                <button style="color:white" @click="showNewUser= !showNewUser, console.log('yea')">Novo usuário</button>
+            <div :class="new_user_button_toggle_class" @click="showNewUser= !showNewUser; handleFormState()">
+                <button>{{ new_user_button_toggle_value }}</button>
             </div>
         </header>
         <Transition>
@@ -51,10 +51,19 @@ import { ref } from 'vue';
 
 let showNewUser = ref(false);
 
-// function toggleForm() {  
-//     document.getElementById("form_container").classList.toggle("showForm");
-//     console.log("yea");
-// }
+const new_user_button_toggle_class = ref("new_user_button_container")
+const new_user_button_toggle_value = ref("Novo usuário")
+
+function handleFormState () {
+    if (showNewUser.value) {
+        new_user_button_toggle_class.value = "cancel_button_container"
+        new_user_button_toggle_value.value = "Cancelar"
+    }
+    else {
+        new_user_button_toggle_class.value = "new_user_button_container"
+        new_user_button_toggle_value.value = "Novo usuário"
+    }
+}
 
 function toggleSelectOptions() {  
     document.getElementById("select_options_container").classList.toggle("show");
@@ -87,7 +96,7 @@ document.documentElement.addEventListener("click", function () {
 header {
     position: relative;
     display: flex;
-    max-width: 600px;
+    max-width: 592px;
     width: 100%;
     justify-content: space-between;
     align-content: center;  
@@ -114,6 +123,18 @@ h1 {
     text-align: center;
     align-content: center;
     border-radius: 5px;
+    color: white;
+}
+
+.cancel_button_container {
+    background-color: #F7F7F7;
+    width: 30%;
+    height: 48px;
+    text-align: center;
+    align-content: center;
+    border-radius: 5px;
+    color: black;
+    font-weight: bold;
 }
 
 button, input, select {
@@ -122,8 +143,7 @@ button, input, select {
 }
 
 .container {
-    max-width: 600px;
-    width: 100%;
+    max-width: 592px;
     position: relative;
 }
 
@@ -134,7 +154,6 @@ button, input, select {
     display: flex;
     visibility: visible;
     opacity: 1;
-    width: 100%;
     transition: opacity 20s;
     z-index: -20;
 }

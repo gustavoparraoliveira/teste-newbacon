@@ -15,13 +15,10 @@ import NewUserForm from '../components/NewUserForm.vue'
 <style>
 
 .home {
-  position: relative;
-  justify-self: center;
   width: 592px;
-  align-items: center;
-  display: block;
-  justify-content: center;
-  margin-left: 10px;
+  display: flex;
+  margin: auto;
+
 }
 
 </style>

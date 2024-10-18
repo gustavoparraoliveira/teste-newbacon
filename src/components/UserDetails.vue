@@ -1,82 +1,102 @@
 <template>
     <div class="container">
         <header>
-            <label>
-                <h1>Usuários</h1>
-            </label>
-            <div class="new_user_button_container" >
-                <button style="color:white" @click="showNewUser= !showNewUser, console.log('yea')">Novo usuário</button>
+            <span>
+                <h1>#{{ routeId }}</h1>
+            </span>
+            <div class="back_button_container">
+                <RouterLink to='/' style="text-decoration:none"><button>Voltar</button></RouterLink>
             </div>
         </header>
-        <transition appear name="fade">
-            <div v-if="showNewUser" class="form_container" id="form_container">
-                <label>
-                    <strong>Nome do usuário</strong>
-                </label>
+        <div class = "avatar_name_container">
+            <div>
+                <img :src=user.avatar>
+            </div>
+            <div class = "name_container">
                 <div>
-                    <input id="name_input">
-                </div>
-                <label>
-                    <strong>Função do usuário</strong>
-                </label>
-                <div class="dropdown">
-                    <div class="select_container" id="select_container" @click.stop="toggleSelectOptions">
-                        <div id="select_value" class ="select_value">
-                            Selecione a função 
-                        </div>
-                        <div class="custom_arrow">
-                            <img src="..\assets\caret-down-solid.svg"/>
-                        </div>
-                    </div>
-                    <div class="select_options_container" id="select_options_container">
-                        <ul>
-                            <li @click.stop="populateSelectedValue('Desenvolvedor')">Desenvolvedor</li>
-                            <li @click.stop="populateSelectedValue('Gerente de Projetos')">Gerente de Projetos</li>
-                            <li @click.stop="populateSelectedValue('Tech Lead')">Tech Lead</li>
-                            <li @click.stop="populateSelectedValue('UI/UX Designer')">UI/UX Designer</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="save_user_button_container">
-                    <button style="color:white">Salvar dados do usuário</button>
+                    <label>Primeiro nome</label>
+                </div> 
+                <div>
+                    <span>{{ user.first_name }}</span>
                 </div>
             </div>
-        </transition>
+            <div class = "name_container">
+                <div>
+                    <label>Último nome</label>
+                </div> 
+                <div>
+                    <span>{{ user.last_name }}</span>
+                </div>
+            </div>
+        </div>
+        <div class = "description_container">
+            <div>
+                <label>Endereço de e-mail</label>
+            </div> 
+            <div>
+                <span>{{ user.email }}</span>
+            </div>
+        </div>
+        <div class = "description_container">
+            <div>
+                <label>Link do avatar</label>
+            </div> 
+            <div>
+                <span>{{ user.avatar }}</span>
+            </div>
+        </div>
+        <div class = "description_container">
+            <div>
+                <label>Link de suporte</label>
+            </div> 
+            <div>
+                <span>{{ support.url }}</span>
+            </div>
+        </div>
+        <div class = "description_container">
+            <div>
+                <label>Descrição do usuário</label>
+            </div> 
+            <div>
+                <span>{{ support.text }}</span>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
 
-import { ref } from 'vue';
+import { ref, onMounted  } from 'vue';
+import { useRoute } from 'vue-router';
+import UserCard from './UserCard.vue';
 
-let showNewUser = ref(false);
+const user = ref([])
+const support = ref ([])
 
-function toggleForm() {  
-    showNewUser.value = !showNewUser.value;
-    console.log("yea");
+const route = useRoute();
+const routeId = route.params.id;
+
+async function fetchData () {
+
+    const response = await fetch('https://reqres.in/api/users/'+routeId);
+
+    if (!response.ok) {
+            console.log('failed')//throw new Error('Login failed');
+    }
+    else {
+        const data = await response.json();
+
+        user.value = data.data;
+        support.value = data.support;
+
+        console.log(data.data)
+        console.log(data.support)
+    }
 }
 
-
-// function toggleForm() {  
-//     document.getElementById("form_container").classList.toggle("showForm");
-//     console.log("yea");
-// }
-
-function toggleSelectOptions() {  
-    document.getElementById("select_options_container").classList.toggle("show");
-}
-
-function populateSelectedValue(String) {
-    document.getElementById("select_value").innerHTML = String;
-    document.getElementById("select_value").style.color="black";
-    document.getElementById("select_options_container").classList.toggle("show");
-}
-
-document.documentElement.addEventListener("click", function () {
-  if (document.getElementById("select_options_container").classList.contains("show")) {
-    toggleSelectOptions();
-  }
-});
+onMounted(() => {
+fetchData();
+})
 
 </script>
 
@@ -102,13 +122,23 @@ h1 {
     align-content: center;
 }
 
-.new_user_button_container {
-    background-color: black;
+.back_button_container {
+    background-color: #F7F7F7;
     width: 30%;
     height: 48px;
     text-align: center;
     align-content: center;
     border-radius: 5px;
+    color: black;
+    font-weight: 0;
+}
+
+.back_button_container button {
+    width: 100%;
+    height: 100%;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 button, input, select {
@@ -117,144 +147,55 @@ button, input, select {
 }
 
 .container {
-    max-width: 600px;
-    width: 100%;
-    position: relative;
+    margin: auto;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 2s;
+.img {
+    width: 120px;
 }
 
-.fade-leave-from,
-.fade-enter-to {
-  opacity: 1;
-  visibility: visible;
-  display: flex;
-}
-
-.fade-enter-from, .fade-leave-to {
-  opacity: 0;
-  visibility: hidden;
-  display: none;
-}
-
-.form_container {
-    margin-top: 10px;
-    flex-direction: column;
-    margin-bottom: 40px;
-    display: hidden;
-    visibility: visible;
-    opacity: 1;
-    width: 100%;
-    transition: opacity 20s;
-}
-
-.showForm {
+.avatar_name_container {
+    width: 80%;
     display: flex;
-    opacity: 1;
-}
-
-.form_container * {
-    margin: 5px 0px 5px 0px;
-    visibility: visible;
-    opacity: 1;
-    position: relative;
-}
-
-.form_container input, .select_container {
-    box-sizing: border-box;
-    background-color: rgb(255, 255, 255);
-    height: 44px;
-    width: 100%;
-    border-radius: 5px;
-    border-width: 1px;
-    border-color: rgb(192, 192, 192);
-    border-style: solid;
-
-    
-}
-
-.form_container input {
-    padding-left: 20px;
-}
-
-.dropdown {
-    position: relative;
-}
-
-.select_container {
-    margin-bottom: 0px;
-    position: relative;
-    padding-left: 20px;
-    padding-top: 10px;
-    justify-content: center;
-    color: grey;
-}
-
-.select_value {
-    position: absolute;
-    top: 5px;
-}
-
-.select_options_container {
-    margin-top: 0px;
-    border-radius: 5px;
-    border-width: 0px 1px 1px 1px;
-    border-color: rgb(192, 192, 192);
-    border-style: solid;
-    visibility: hidden;
-    opacity: 0;
-    position: absolute;
-    background-color: white;
-    width: 100%;
-    z-index: 10;
-    pointer-events: none;
-}
-
-.show {
-  visibility: visible;
-  opacity: 1;
-  pointer-events: all;
-}
-
-.select_options_container ul {
-    padding-left: 0px;
-    list-style: none;
+    justify-content: space-between;
+    padding: 15px;
     align-items: center;
 }
 
-.select_options_container ul li:hover {
-    background-color: #F7F7F7;
-    font-weight: bold;
+.name_container {
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items:stretch;
 }
 
-.select_options_container li {
-    padding: 5px 20px 5px;
+.description_container {
+    width: 80%;
+    height: 50px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 }
 
-.custom_arrow {
-    display:block;
-    background-color: none;
-    position: absolute;
-    top:1px;
-    right: 15px;
-    pointer-events: none;
+.description_container div {
+    flex: 1;
 }
 
-.custom_arrow img {
-    height: 18px;
+.name_container div {
+    flex: 1;
 }
 
-.save_user_button_container {
-    background-color: black;
-    width: 100%;
-    height: 48px;
-    text-align: center;
-    align-content: center;
-    border-radius: 5px;
-    margin-top: 15px;
+
+label {
+    color: gray;
+    font-size: 16px;
+}
+
+span {
+    color: black;
+    font-weight: 600;
+    font-size: 18px;
 }
 
 </style>
