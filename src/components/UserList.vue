@@ -14,6 +14,7 @@ import { onMounted, ref } from 'vue'
 let id = 1;
 
 const users = ref([])
+console.log(users.value);
 
 const usersDefault = [
         {id: id++, first_name: 'Neymar', last_name:'Pai', email: 'akira.takiroto@gmail.com', avatar:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlzmYCFHcgQbTEpYyMa7EnLQPoO_RB_qCrNw&s', supportURL:'', funcao: 'Desenvolvedor'},
@@ -26,19 +27,16 @@ async function fetchData () {
     const response = await fetch('https://reqres.in/api/users?page=1');
 
     if (!response.ok) {
-            users.value = usersDefault;
-            console.log('failed')//throw new Error('Login failed');
+            throw new Error('Fetch failed')
     }
     else {
         const data = await response.json();
         users.value = data.data;
-        console.log(data.data)
+        console.log('data fetched')
     }
 }
 
-onMounted(() => {
-    fetchData();
-})
+onMounted(() => { fetchData() })
 
 </script>
 

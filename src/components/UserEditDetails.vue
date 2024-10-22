@@ -5,7 +5,7 @@
                 <h1>#{{ routeId }}</h1>
             </span>
             <div class="back_button_container">
-                <RouterLink to='/' style="text-decoration:none"><button>Voltar</button></RouterLink>
+                <RouterLink to='/' style="text-decoration:none"><button class="back_button">Voltar</button></RouterLink>
             </div>
         </header>
         <div class = "avatar_firstname_lastname_container">
@@ -16,50 +16,47 @@
                 <div>
                     <label>Primeiro nome</label>
                 </div> 
-                <div>
-                    <span>{{ user.first_name }}</span>
+                <div class="input_field">
+                    <input style="padding: 10px 0px 10px 10px;" :value="user.first_name"></input>
                 </div>
             </div>
             <div class = "name_container">
                 <div>
                     <label>Último nome</label>
                 </div> 
-                <div>
-                    <span>{{ user.last_name }}</span>
+                <div class="input_field">
+                    <input style="padding: 10px 0px 10px 10px;" :value="user.last_name"></input>
                 </div>
             </div>
         </div>
-        <div class = "description_container">
+        <div class = "details_container">
             <div>
                 <label>Endereço de e-mail</label>
             </div> 
-            <div>
-                <span>{{ user.email }}</span>
+            <div class="input_field">
+                <input style="width: 95%; padding: 10px 0px 10px 10px;" :value="user.email"></input>
             </div>
-        </div>
-        <div class = "description_container">
             <div>
                 <label>Link do avatar</label>
             </div> 
-            <div>
-                <span>{{ user.avatar }}</span>
+            <div class="input_field">
+                <input style="width: 95%; padding: 10px 0px 10px 10px;" :value="user.avatar"></input>
             </div>
-        </div>
-        <div class = "description_container">
             <div>
                 <label>Link de suporte</label>
             </div> 
-            <div>
-                <span>{{ support.url }}</span>
+            <div class="input_field">
+                <input style="width: 95%; padding: 10px 0px 10px 10px;" :value="support.url"></input>
             </div>
-        </div>
-        <div class = "description_container">
             <div>
                 <label>Descrição do usuário</label>
             </div> 
-            <div>
-                <span>{{ support.text }}</span>
+            <div class="input_field">
+                <input style="width: 95%; padding: 10px 0px 10px 10px;" :value="support.text"></input>
             </div>
+        </div>
+        <div class="save_user_button_container">
+            <button style="color:white">Salvar dados do usuário</button>
         </div>
     </div>
 </template>
@@ -106,7 +103,6 @@ onMounted(() => {
 
 * {
     border: none;
-
 }
 
 header {
@@ -135,7 +131,7 @@ h1 {
     font-weight: 0;
 }
 
-.back_button_container button {
+.back_button {
     width: 100%;
     height: 100%;
     color: black;
@@ -158,6 +154,7 @@ button, input, select {
 
 .avatar_firstname_lastname_container {
     width: 80%;
+    gap: 10px;
     display: flex;
     justify-content: space-between;
     padding: 15px;
@@ -171,23 +168,23 @@ button, input, select {
     align-items:stretch;
 }
 
-.description_container {
-    width: 80%;
+.details_container {
+    width: 90%;
     height: 50px;
     padding: 15px;
     display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: column; 
+    gap: 13px;
+    height: 100%;
 }
 
-.description_container div {
+.details_container div {
     flex: 1;
 }
 
 .name_container div {
     flex: 1;
 }
-
 
 label {
     color: gray;
@@ -199,5 +196,34 @@ span {
     font-weight: 600;
     font-size: 18px;
 }
+
+.input_field {
+    box-sizing: border-box;
+    background-color: rgb(255, 255, 255);
+    height: 40px;
+    width: 100%;
+    border-radius: 5px;
+    border-width: 1px;
+    border-color: rgb(192, 192, 192);
+    border-style: solid;
+    padding: 2px;
+}
+
+.input_field_value {
+    width: 100%;
+}
+
+.save_user_button_container {
+    display: inline-block;
+    background-color: black;
+    width: 100%;
+    height: 48px;
+    text-align: center;
+    align-content: center;
+    border-radius: 5px;
+    margin-top: 15px;
+    position: relative;
+}
+
 
 </style>

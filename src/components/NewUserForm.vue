@@ -96,7 +96,7 @@ document.documentElement.addEventListener("click", function () {
 header {
     position: relative;
     display: flex;
-    max-width: 592px;
+    width: 592px;
     width: 100%;
     justify-content: space-between;
     align-content: center;  
@@ -143,8 +143,7 @@ button, input, select {
 }
 
 .container {
-    max-width: 592px;
-    position: relative;
+    width: 592px;
 }
 
 .form_container {
@@ -154,8 +153,6 @@ button, input, select {
     display: flex;
     visibility: visible;
     opacity: 1;
-    transition: opacity 20s;
-    z-index: -20;
 }
 
 .v-enter-active,
@@ -183,8 +180,6 @@ button, input, select {
     border-width: 1px;
     border-color: rgb(192, 192, 192);
     border-style: solid;
-
-    
 }
 
 .form_container input {
